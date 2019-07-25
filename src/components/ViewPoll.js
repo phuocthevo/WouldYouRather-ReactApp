@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Card, CardBody, CardTitle,Progress,Row,Col,ListGroupItem,ListGroup} from 'reactstrap';
-
+import ErrorPage from './ErrorPage'
 
 class ViewPoll extends Component {
+
   render() {
     const {question,authedUser,users} = this.props
-
+    console.log(question)
+    if (question===undefined){
+      return <ErrorPage/>
+    }
     const optionOneAmount = question.optionOne.votes.length
     const optionTwoAmount = question.optionTwo.votes.length
     const allVotes = optionOneAmount + optionTwoAmount

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { handleAddQuestionAnswer } from '../actions/questions'
 import {Redirect} from "react-router-dom";
 import { Card, CardBody, CardTitle,CardImg,Button,Form,ListGroup,ListGroupItem,Row,Col} from 'reactstrap';
-
+import ErrorPage from './ErrorPage'
 class ChooseOption extends Component {
     state = {
         selected: '',
@@ -28,6 +28,10 @@ class ChooseOption extends Component {
     }
 
   render() {
+    console.log(this.props.question)
+    if (this.props.question===undefined){
+      return <ErrorPage/>
+    }
     return this.state.isSubmit===true? <Redirect to={`/question/${this.props.id}/results`}/>:
         (
           <Row className="justify-content-md-center">
