@@ -9,6 +9,7 @@ import NewQuestion from '../components/NewQuestion'
 import ChooseOption from '../components/ChooseOption'
 import ViewPoll from '../components/ViewPoll'
 import NavBar from './NavBar'
+import ProtectedRoute from './ProtectedRoute'
 import ErrorPage from './ErrorPage'
 import { handleInitialData } from '../actions/shared'
 import logo from './logo.svg';
@@ -19,7 +20,6 @@ class App extends Component {
     this.props.dispatch(handleInitialData())
   }
   render() {
-    console.log(this.props.account)
     return (
       <div className="App">
       <header>
@@ -33,20 +33,19 @@ class App extends Component {
             <Switch>
                 <Route exact path="/" component={LogInPage}/>
                 {this.props.account===undefined? <Route path="/" component={LogInPage}/>:(
-                  <Fragment>
-                    <Route exact path="/home" component={Dashboard} />
-                    <Route exact path="/question/:question_id" component={ChooseOption}  />
-                    <Route  path="/question/:question_id/results" component={ViewPoll} />
-                    <Route exact path="/add" component={NewQuestion} />
-                    <Route exact path="/leaderboard" component={Leaderboard} />
-                    <Route component={ErrorPage} />
-                  </Fragment>
+                    <Switch>
+                      <Route exact path="/home" component={Dashboard} />
+                      <Route exact path="/question/:question_id" component={ChooseOption}  />
+                      <Route exact path="/question/:question_id/results" component={ViewPoll} />
+                      <Route exact path="/add" component={NewQuestion} />
+                      <Route exact path="/leaderboard" component={Leaderboard} />
+                      <Route component={ErrorPage}/>
+                    </Switch>
                )}
             </Switch>)}
           </Fragment>
       </BrowserRouter>
       </div>
-
     )
   }
 }
@@ -56,5 +55,4 @@ function mapStateToProps({authedUser}) {
         account: authedUser.account,
     }
 }
-
 export default connect(mapStateToProps)(App)
